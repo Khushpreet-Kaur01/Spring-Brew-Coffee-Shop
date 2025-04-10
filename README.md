@@ -1,4 +1,4 @@
-# ☕ SpringBrew
+# ☕ SpringBrew Coffee Shop
 
 **SpringBrew** is a sleek and professional Coffee Shop web application built using **Spring Boot**, **Thymeleaf**, **JDBC**, and **MySQL**. It lets you manage coffee products — view, add, edit, and delete — all through a clean, modern UI.
 
