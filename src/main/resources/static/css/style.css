@@ -161,3 +161,22 @@
             background-color: #e53935;
             color: white;
         }
+        #clear-order-btn {
+  background: linear-gradient(to right, #6d4c41, #3e2723);
+            color: #fffde7;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 10px;
+            transition: background 0.3s ease, transform 0.3s ease;
+}
+
+#clear-order-btn:hover {
+   background: linear-gradient(to right, #5d4037, #212121);
+            transform: translateY(-2px);
+}
+
+#clear-order-btn:active {
+    transform: scale(0.95);
+}
+        
