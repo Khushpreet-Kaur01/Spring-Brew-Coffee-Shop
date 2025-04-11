@@ -5,10 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const nameInput = document.getElementById('name');
     const descriptionInput = document.getElementById('description');
     const priceInput = document.getElementById('price');
+    const clearAllButton = document.getElementById('clear-all-button');
+    const totalPriceDisplay = document.getElementById('total-price');
 
     let isEditMode = false;
 
-    // Function to refresh the coffee list
     const refreshCoffeeList = () => {
         fetch('/products', {
             headers: { 'Accept': 'application/json' }
@@ -16,15 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(coffees => {
             coffeeTableBody.innerHTML = '';
+            let totalPrice = 0;
             coffees.forEach(coffee => {
+                totalPrice += coffee.price;
                 const row = coffeeTableBody.insertRow();
                 row.insertCell().textContent = coffee.id;
                 row.insertCell().textContent = coffee.name;
                 row.insertCell().textContent = coffee.description;
                 row.insertCell().textContent = '$' + coffee.price.toFixed(2);
-                
+
                 const actionsCell = row.insertCell();
-                
+
                 const editButton = document.createElement('button');
                 editButton.textContent = 'Edit';
                 editButton.classList.add('edit-btn');
@@ -39,14 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteButton.addEventListener('click', () => deleteCoffee(coffee.id));
                 actionsCell.appendChild(deleteButton);
             });
+            totalPriceDisplay.textContent = '$' + totalPrice.toFixed(2);
         })
         .catch(error => console.error('Error fetching coffees:', error));
     };
 
-    // Initial load
     refreshCoffeeList();
 
-    // Form submission handler
     coffeeForm.addEventListener('submit', (event) => {
         event.preventDefault();
         const formData = new FormData(coffeeForm);
@@ -81,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Populate form for editing
     const populateFormForEdit = (coffee) => {
         isEditMode = true;
         coffeeIdInput.value = coffee.id;
@@ -90,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
         priceInput.value = coffee.price;
     };
 
-    // Delete coffee
     const deleteCoffee = (id) => {
         if (confirm('Are you sure you want to delete this coffee?')) {
             fetch(`/products/${id}`, { method: 'DELETE' })
@@ -109,15 +109,58 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Show message
     const showMessage = (message, type) => {
         const messageDiv = document.getElementById('form-message');
         messageDiv.textContent = message;
         messageDiv.className = `message ${type}`;
         messageDiv.style.display = 'block';
-        
+
         setTimeout(() => {
             messageDiv.style.display = 'none';
         }, 3000);
     };
+
+    // Clear All button logic
+    clearAllButton.addEventListener('click', () => {
+        if (confirm('Are you sure you want to clear all coffee entries?')) {
+            fetch('/products/clear', { method: 'DELETE' })
+            .then(response => {
+                if (response.ok) {
+                    refreshCoffeeList();
+                    coffeeForm.reset();
+                    showMessage('All coffee entries cleared.', 'success');
+                } else {
+                    showMessage('Failed to clear coffee entries.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error clearing entries:', error);
+                showMessage('Error: ' + error.message, 'error');
+            });
+        }
+    });
+});
+const clearOrderButton = document.getElementById('clear-order-btn');
+
+clearOrderButton.addEventListener('click', () => {
+    if (confirm('Are you sure you want to clear the order? This will remove all coffee items.')) {
+        fetch('/products', {
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(res => res.json())
+        .then(coffees => {
+            const deletePromises = coffees.map(coffee =>
+                fetch(`/products/${coffee.id}`, { method: 'DELETE' })
+            );
+            return Promise.all(deletePromises);
+        })
+        .then(() => {
+            refreshCoffeeList();
+            showMessage('Order cleared.', 'success');
+        })
+        .catch(err => {
+            console.error('Error clearing order:', err);
+            showMessage('Failed to clear order: ' + err.message, 'error');
+        });
+    }
 });

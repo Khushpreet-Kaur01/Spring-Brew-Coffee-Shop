@@ -73,23 +73,23 @@
         }
 
         .edit-btn {
-            background: linear-gradient(to right, #ffb300, #f57c00);
+            background: linear-gradient(to right, #6d4c41, #3e2723);;
             color: white;
         }
 
         .edit-btn:hover {
             transform: scale(1.1);
-            background: linear-gradient(to right, #ffa000, #ef6c00);
+            background: linear-gradient(to right, #5d4037, #212121);
         }
 
         .delete-btn {
-            background: linear-gradient(to right, #e53935, #b71c1c);
+            background: linear-gradient(to right, #6d4c41, #3e2723);;
             color: white;
         }
 
         .delete-btn:hover {
             transform: scale(1.1);
-            background: linear-gradient(to right, #d32f2f, #880e4f);
+            background: linear-gradient(to right, #5d4037, #212121);
         }
 
         form {

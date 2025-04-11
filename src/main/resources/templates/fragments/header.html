@@ -1,30 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Coffee</title>
-<style>
-  div {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(90deg, #4e342e, #6d4c41);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            margin-bottom: 40px;
-            text-align:center;
-        }
-        </style>
+    <meta charset="UTF-8">
+    <title>Coffee</title>
 </head>
 <body>
-<div th:fragment="header">
-<img id="logo" height="95px"
-			src="../../static/images/javalogo.jpg"
-			th:src="@{/images/javalogo.jpg}" />
-<span id="system-name" style="font-size:80pt; text-align:center;">SpringBrew Coffee Shop</span>
-</div>
-
-
+    <div th:fragment="header" 
+         style="display: flex; align-items: center; justify-content: center;
+                background: linear-gradient(90deg, #4e342e, #6d4c41);
+                padding: 25px; border-radius: 15px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+                margin-bottom: 40px; gap: 20px;">
+                
+        <img id="logo" th:src="@{/images/javalogo.jpg}" alt="Java Logo"
+             style="height: 95px;" />
+             
+        <span id="system-name" 
+              style="font-size: 60pt; color: white;
+                     font-family: 'Comic Sans MS', cursive, sans-serif;
+                     text-shadow: 2px 2px 4px #000000;">
+            SpringBrew Coffee Shop
+        </span>
+    </div>
 </body>
 </html>
